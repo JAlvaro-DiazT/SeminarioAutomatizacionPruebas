@@ -6,10 +6,10 @@ import org.openqa.selenium.WebDriver;
 public class ConfigureSMSPage extends Base{
 
     By configureSMSLocator = By.xpath("//span[@class='ui-steps-number' and text()='1']");
-    By configureNameProjectLocator = By.name("registro:nombre");
-    By configureDescriptionLocator = By.name("registro:descripcion");
+    By configureNameProjectLocator = By.id("registro:nombre");
+    By configureDescriptionLocator = By.id("registro:descripcion");
 
-    By configureSMSButtonLocator = By.id("registro:j_idt84");
+    By configureSMSButtonLocator = By.xpath("//span[@class='ui-button-text ui-c' and text()='Aceptar']");
     public ConfigureSMSPage(WebDriver driver) {
         super(driver);
     }
@@ -18,6 +18,17 @@ public class ConfigureSMSPage extends Base{
         click(configureSMSLocator);
         type(nameProject,configureNameProjectLocator);
         type(descriptionProject,configureDescriptionLocator);
+
+
+    }
+    public void sumbit(){
         click(configureSMSButtonLocator);
+    }
+    public By getConfigureSMSLocator() {
+        return configureSMSLocator;
+    }
+
+    public By getConfigureNameProjectLocator() {
+        return configureNameProjectLocator;
     }
 }

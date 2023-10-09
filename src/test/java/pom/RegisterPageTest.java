@@ -25,9 +25,6 @@ class RegisterPageTest extends BaseTest {
         //registerPage.visit("http://189.50.209.188");
     }
 
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     public void registerUser() throws InterruptedException {
