@@ -30,4 +30,8 @@ public class RegisterPage extends Base {
         // System.out.println(isDisplayed(messageOperationCompleted));
         //System.out.println(isDisplayed(messageExistingRegistration));
     }
+
+    public By getMessageExistingRegistration() {
+        return messageExistingRegistration;
+    }
 }

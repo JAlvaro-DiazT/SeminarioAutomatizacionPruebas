@@ -1,4 +1,4 @@
-package pom.SignInPageTest;
+package pom.signinpagetest;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
