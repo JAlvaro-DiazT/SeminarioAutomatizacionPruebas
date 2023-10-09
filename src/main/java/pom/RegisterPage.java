@@ -13,21 +13,21 @@ public class RegisterPage extends Base {
     By registerRepeatKeyLocator = By.id("registro:verificacionClave");
     By registerButtonAcceptLocator = By.id("registro:j_idt88");
 
+    By messageExistingRegistration = By.xpath("//span[@class='ui-growl-title' and text()='Existing registration']");
+    By messageOperationCompleted = By.xpath("//span[@class='ui-growl-title' and text()='Operación completada']");
+
     public RegisterPage(WebDriver driver) {
         super(driver);
     }
 
-    public boolean registerUser(String name, String username, String key, String keyVerification) throws InterruptedException{
+    public void registerUser(String name, String username, String key, String keyVerification) throws InterruptedException {
         click(registerButtonLocator);
-        //Thread.sleep(5000);
         type(name, registerNameLocator);
         type(username,registerUserNameLocator);
         type(key, registerKeyLocator);
         type(keyVerification, registerRepeatKeyLocator);
-        Thread.sleep(1000);
         click(registerButtonAcceptLocator);
-
-        return true;
-
+        // System.out.println(isDisplayed(messageOperationCompleted));
+        //System.out.println(isDisplayed(messageExistingRegistration));
     }
 }

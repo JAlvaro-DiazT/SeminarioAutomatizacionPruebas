@@ -2,6 +2,7 @@ package pom;
 
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -33,9 +34,24 @@ class RegisterPageTest extends BaseTest {
         String name = faker.name().firstName();
         String username = faker.name().username();
         String key = faker.internet().password();
-        boolean register = registerPage.registerUser(name, username, key, key);
-        BooleanSupplier condition = () -> register;
+        registerPage.registerUser(name, username, key, key);
 
-        assertTrue(condition, "Registro completado exitosamente");
+        Boolean displayed = registerPage.isDisplayed(registerPage.messageExistingRegistration);
+
+        assertFalse(displayed,"Usuario creado");
+    }
+
+    @Test
+    public void registerUserIncorrect() throws InterruptedException {
+        String name = "alvaro diaz";
+        String username = "alvaro";
+        String key = "diaz";
+        registerPage.registerUser(name, username, key, key);
+
+        Boolean displayed = registerPage.isDisplayed(registerPage.messageExistingRegistration);
+
+        assertTrue(displayed, "El usuario ya existe");
+
+
     }
 }

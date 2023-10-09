@@ -10,9 +10,9 @@ public class SignInPage extends Base{
 
     By registerEnterLocator = By.id("j_idt74");
 
-    By registerGoOut = By.id("j_idt374:j_idt375");
+    By registerGoOut = By.xpath("//span[@class='ui-button-text ui-c' and text()='Salir']");
 
-    By registerMenu = By.id("j_idt371:j_idt372");
+    By registerMenu = By.xpath("//span[@class='ui-button-text ui-c' and text()='ui-button']");
     public SignInPage(WebDriver driver) {
         super(driver);
     }
@@ -22,12 +22,7 @@ public class SignInPage extends Base{
         type(key, enterKeyLocator);
         click(registerEnterLocator);
 
-        if (isDisplayed(registerGoOut) && isDisplayed(registerMenu)) {
-            System.out.println("Logueo Exitoso");
-        }else{
-            fail("Credenciales incorrectas");
-            System.out.println("Credenciales incorrectas");
-        }
+
     }
 
     public boolean isHomePageDisplayed(){
