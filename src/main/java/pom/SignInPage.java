@@ -2,7 +2,6 @@ package pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import static org.junit.jupiter.api.Assertions.fail;
 public class SignInPage extends Base{
 
     By enterUserNameLocator = By.id("nombreUsuario");
@@ -17,12 +16,19 @@ public class SignInPage extends Base{
         super(driver);
     }
 
-    public void signIn(String user, String key)throws InterruptedException {
+    public void signIn(String user, String key) {
+
         type(user, enterUserNameLocator);
         type(key, enterKeyLocator);
         click(registerEnterLocator);
+    }
 
+    public By getRegisterGoOut() {
+        return registerGoOut;
+    }
 
+    public By getRegisterMenu() {
+        return registerMenu;
     }
 
     public boolean isHomePageDisplayed(){

@@ -16,8 +16,6 @@ class RegisterPageTest extends BaseTest {
     RegisterPage registerPage;
     Faker faker = new Faker();
 
-
-
     @BeforeEach
     void setUp() {
         setUpDriverConnetion();
@@ -26,7 +24,7 @@ class RegisterPageTest extends BaseTest {
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
     }
 
     @Test

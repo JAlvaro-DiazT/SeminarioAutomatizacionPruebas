@@ -26,7 +26,7 @@ class ConfigureSMSPageTest extends BaseTest{
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
     }
 
     @Test
