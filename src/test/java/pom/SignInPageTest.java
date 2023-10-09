@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.BooleanSupplier;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SignInPageTest extends BaseTest {
 
@@ -25,7 +24,7 @@ class SignInPageTest extends BaseTest {
         String key = "diaz";
         signInPage.signIn(user, key);
 
-        //metodo desde el page con un boolean
+        assertTrue(signInPage.isDisplayed(signInPage.registerGoOut) && signInPage.isDisplayed(signInPage.registerMenu));
     }
 
     @Test
@@ -33,5 +32,10 @@ class SignInPageTest extends BaseTest {
         String user = "error prueba";
         String key = "error123";
         signInPage.signIn(user, key);
+
+        assertFalse(signInPage.isDisplayed(signInPage.registerGoOut) && signInPage.isDisplayed(signInPage.registerMenu));
+
+
+
     }
 }

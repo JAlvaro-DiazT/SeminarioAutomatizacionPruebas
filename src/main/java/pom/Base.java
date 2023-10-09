@@ -5,7 +5,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 /*
 Contiene los elementos principales de un modelo POM
@@ -14,9 +17,14 @@ Conexion, entrada de texto, obtener algun elemento, enviar texto
 public class Base {
 
     private WebDriver driver;
+    private WebDriverWait ewait;
 
+    public WebDriverWait getEwait(){
+        return ewait;
+    }
     public Base(WebDriver driver){
         this.driver = driver;
+        ewait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     public WebElement finElement(By locator){
@@ -40,6 +48,7 @@ public class Base {
     }
 
     public void click(By locator){
+        ewait.until(ExpectedConditions.elementToBeClickable(locator));
         driver.findElement(locator).click();
     }
 
