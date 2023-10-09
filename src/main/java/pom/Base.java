@@ -16,6 +16,11 @@ Conexion, entrada de texto, obtener algun elemento, enviar texto
  */
 public class Base {
 
+    By goForward = By.xpath("//span[@class='ui-button-icon-left ui-icon ui-c pi pi-arrow-circle-right']");
+    By goBack = By.xpath("//span[@class='ui-button-icon-left ui-icon ui-c pi pi-arrow-circle-left']");
+
+    By numberOneLocater = By.xpath("//span[@class='ui-steps-number' and text()='1']");
+    By titleOneLocater = By.xpath("//span[@class='ui-steps-title' and text()='Configurar SMS']");
     private WebDriver driver;
     private WebDriverWait ewait;
 
@@ -44,6 +49,7 @@ public class Base {
     }
 
     public void type(String inputText, By locator){
+        driver.findElement(locator).clear();
         driver.findElement(locator).sendKeys(inputText);
     }
 
@@ -62,5 +68,19 @@ public class Base {
 
     public void visit(String url){
         driver.get(url);
+    }
+
+    //nuevos metodos
+    public void goForward(){
+        click(goForward);
+    }
+
+    public void goBack(){
+        click(goBack);
+    }
+
+    public void goFirstPage(){
+        click(numberOneLocater);
+        click(titleOneLocater);
     }
 }
