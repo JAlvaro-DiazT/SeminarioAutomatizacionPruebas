@@ -16,13 +16,10 @@ class RegisterPageTest extends BaseTest {
     RegisterPage registerPage;
     Faker faker = new Faker();
 
-
-
     @BeforeEach
     void setUp() {
         setUpDriverConnetion();
         registerPage = new RegisterPage(getDriver());
-        //registerPage.visit("http://189.50.209.188");
     }
 
 
@@ -33,9 +30,8 @@ class RegisterPageTest extends BaseTest {
         String key = faker.internet().password();
         registerPage.registerUser(name, username, key, key);
 
-        Boolean displayed = registerPage.isDisplayed(registerPage.messageExistingRegistration);
-
-        assertFalse(displayed,"Usuario creado");
+        String message = registerPage.receivePopupMessage();
+        assertEquals(  "Operación completada", message);
     }
 
     @Test
@@ -45,9 +41,8 @@ class RegisterPageTest extends BaseTest {
         String key = "diaz";
         registerPage.registerUser(name, username, key, key);
 
-        Boolean displayed = registerPage.isDisplayed(registerPage.messageExistingRegistration);
-
-        assertTrue(displayed, "El usuario ya existe");
+        String message = registerPage.receivePopupMessage();
+        assertEquals(  "Existing registration", message);
 
 
     }
