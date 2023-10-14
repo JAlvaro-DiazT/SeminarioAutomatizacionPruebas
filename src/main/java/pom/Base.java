@@ -1,10 +1,8 @@
 package pom;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -29,7 +27,7 @@ public class Base {
     }
     public Base(WebDriver driver){
         this.driver = driver;
-        ewait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        ewait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public WebElement finElement(By locator){
@@ -60,6 +58,7 @@ public class Base {
 
     public Boolean isDisplayed(By locator){
         try{
+            ewait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
             return driver.findElement(locator).isDisplayed();
         }catch (org.openqa.selenium.NoSuchElementException e){
             return false;
@@ -81,6 +80,13 @@ public class Base {
 
     public void goFirstPage(){
         click(numberOneLocater);
-        click(titleOneLocater);
+        //click(titleOneLocater);
+    }
+
+    public void redirectPage(int page){
+        //goFirstPage();
+        for (int i = 1; i < page ; i++) {
+            goForward();
+        }
     }
 }

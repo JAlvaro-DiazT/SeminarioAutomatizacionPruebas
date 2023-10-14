@@ -53,11 +53,13 @@ public class StepDefinitionsConfigureSMS extends BaseTest {
     public void clickOnTheObjetivoLink() {
         By titleTwoLocater = By.xpath("//span[@class='ui-steps-title' and text()='Objetivo']");
         configureSMSPage.click(titleTwoLocater);
+        //is displayed codigo
     }
 
     @And("click on the \"2\" link")
     public void clickOnThe2Link() {
         By numberTwoLocater = By.xpath("//span[@class='ui-steps-number' and text()='2']");
         configureSMSPage.click(numberTwoLocater);
+        //is displayed descripcion
     }
 }

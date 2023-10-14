@@ -6,6 +6,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pom.BaseTest;
 import pom.RegisterPage;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StepDefinitionsRegisterUserIncorrectly extends BaseTest {
@@ -30,9 +32,7 @@ public class StepDefinitionsRegisterUserIncorrectly extends BaseTest {
 
     @Then("Validate if the \"Existing registration\" pop-up message appears")
     public void validate_if_the_pop_up_message_does_appear() {
-        Boolean displayed;
-        displayed = registerPage.isDisplayed(registerPage.getMessageExistingRegistration());
-
-        assertTrue(displayed, "El usuario ya existe");
+        String message = registerPage.receivePopupMessage();
+        assertEquals(  "Existing registration", message);
     }
 }
