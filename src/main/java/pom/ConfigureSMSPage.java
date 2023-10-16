@@ -10,6 +10,9 @@ public class ConfigureSMSPage extends Base{
     By configureDescriptionLocator = By.id("registro:descripcion");
 
     By configureSMSButtonLocator = By.xpath("//span[@class='ui-button-text ui-c' and text()='Aceptar']");
+
+    By titleApp = By.xpath("//div[@id='tituloApp']/h1");
+
     public ConfigureSMSPage(WebDriver driver) {
         super(driver);
     }
@@ -18,17 +21,11 @@ public class ConfigureSMSPage extends Base{
         click(configureSMSLocator);
         type(nameProject,configureNameProjectLocator);
         type(descriptionProject,configureDescriptionLocator);
-
-
-    }
-    public void sumbit(){
         click(configureSMSButtonLocator);
-    }
-    public By getConfigureSMSLocator() {
-        return configureSMSLocator;
+
     }
 
-    public By getConfigureNameProjectLocator() {
-        return configureNameProjectLocator;
+    public String getTitleApp(){
+        return getText(titleApp);
     }
 }

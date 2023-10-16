@@ -24,7 +24,7 @@ class RegisterPageTest extends BaseTest {
 
 
     @Test
-    public void registerUser() throws InterruptedException {
+    public void registerUser() {
         String name = faker.name().firstName();
         String username = faker.name().username();
         String key = faker.internet().password();

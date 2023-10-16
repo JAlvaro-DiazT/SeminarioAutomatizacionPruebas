@@ -27,7 +27,7 @@ public class Base {
     }
     public Base(WebDriver driver){
         this.driver = driver;
-        ewait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        ewait = new WebDriverWait(driver, Duration.ofSeconds(7));
     }
 
     public WebElement finElement(By locator){
@@ -43,6 +43,7 @@ public class Base {
     }
 
     public String getText(By locator){
+        ewait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         return driver.findElement(locator).getText();
     }
 
@@ -58,7 +59,8 @@ public class Base {
 
     public Boolean isDisplayed(By locator){
         try{
-            ewait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+            //ewait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+            ewait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             return driver.findElement(locator).isDisplayed();
         }catch (org.openqa.selenium.NoSuchElementException e){
             return false;
@@ -84,7 +86,7 @@ public class Base {
     }
 
     public void redirectPage(int page){
-        //goFirstPage();
+        goFirstPage();
         for (int i = 1; i < page ; i++) {
             goForward();
         }

@@ -40,30 +40,21 @@ class ConfigureSMSPageTest extends BaseTest{
         String description = faker.lorem().sentence(30);
 
         configureSMSPage.configureSMS(name, description);
+        //Thread.sleep(2000);
+        String message = configureSMSPage.getTitleApp();
+        System.out.println(message);
+        assertEquals(  ":: SMS - Builder :: Objetivo ::", message);
 
-        configureSMSPage.sumbit();
-
-        By numberTwoLocater = By.xpath("//span[@class='ui-steps-number' and text()='2']");
-        By titleTwoLocater = By.xpath("//span[@class='ui-steps-title' and text()='Objetivo']");
-
-        configureSMSPage.click(numberTwoLocater);
-        configureSMSPage.click(titleTwoLocater);
     }
 
     @Test
-    void configureSMSTestError() {
-        String name = faker.lorem().sentence(10);
-        String description = faker.lorem().sentence(30);
+    void configureSMSTestEmptyField(){
+        String name = "";
+        String description = "";
 
         configureSMSPage.configureSMS(name, description);
-
-        configureSMSPage.sumbit();
-
-        //By codigoLocaterObjetivo = By.xpath("//span[@class='ui-outputlabel-label' and text()='C\\u00F3digo: ']");
-        //By descripcionLocaterObjetivo = By.xpath("//span[@class='ui-outputlabel-label' and text()='Descripci\\u00F3n:']");
-
-        //System.out.println(configureSMSPage.isDisplayed(codigoLocaterObjetivo));
-        //System.out.println(configureSMSPage.isDisplayed(descripcionLocaterObjetivo));
-
+        //Thread.sleep(2000);
+        String message = configureSMSPage.getTitleApp();
+        assertEquals(  ":: SMS - Builder :: Objetivo ::", message);
     }
 }

@@ -32,16 +32,18 @@ class GoalPageTest extends BaseTest {
     }
 
     @Test
-    public void existingTargetRecord() {
-        String code = "12";
+    public void existingTargetRecord() throws InterruptedException {
+        String code = faker.lorem().sentence(3);;
         String description = faker.lorem().sentence(10);
 
         goalPage.registerGoal(code, description);
 
-        Boolean displayed;
-        displayed = goalPage.isDisplayed(goalPage.getMessageErrorRegister());
-        System.out.println(displayed);
-        assertTrue(displayed, "El codigo ya existe");
+        //Thread.sleep(3000);
+        String description2 = faker.lorem().sentence(10);
+        goalPage.registerGoal(code, description2);
+        // Thread.sleep(3000);
+        String message = goalPage.receivePopupMessage();
+        assertEquals(  "Error Registro ya existente", message);
     }
 
     @Test
@@ -50,11 +52,11 @@ class GoalPageTest extends BaseTest {
         String description = faker.lorem().sentence(10);
 
         goalPage.registerGoal(code, description);
+        String message = goalPage.receivePopupMessage();
+        assertEquals(  "Operación completada", message);
 
-        Boolean displayed;
-        displayed = goalPage.isDisplayed(goalPage.getMessageOperationCompleted());
-        System.out.println(displayed);
-        assertTrue(displayed, "Objetivo creado");
+        //tbody, tr, td comparacion del valor ingresado si este en la tabla (code)
+
     }
 
     @Test
@@ -63,10 +65,7 @@ class GoalPageTest extends BaseTest {
         String description = faker.lorem().sentence(10);
 
         goalPage.registerGoal("", description);
-
-        Boolean displayed;
-        displayed = goalPage.isDisplayed(goalPage.getMessageErrorValue());
-        System.out.println(displayed);
-        assertTrue(displayed, "El campo codigo esta vacio");
+        String message = goalPage.receivePopupMessage();
+        assertEquals(  "formulario:j_idt83: Error de validación: se necesita un valor.", message);
     }
 }

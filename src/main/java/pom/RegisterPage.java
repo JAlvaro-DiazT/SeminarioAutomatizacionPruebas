@@ -20,7 +20,7 @@ public class RegisterPage extends Base {
         super(driver);
     }
 
-    public void registerUser(String name, String username, String key, String keyVerification) throws InterruptedException {
+    public void registerUser(String name, String username, String key, String keyVerification) {
         click(registerButtonLocator);
         type(name, registerNameLocator);
         type(username,registerUserNameLocator);

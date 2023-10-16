@@ -13,9 +13,6 @@ public class BaseTest {
 
     private WebDriver driver;
 
-
-
-
     public WebDriver getDriver(){
         return driver;
     }
