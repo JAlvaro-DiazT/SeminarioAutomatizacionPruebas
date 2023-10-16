@@ -13,9 +13,6 @@ public class BaseTest {
 
     private WebDriver driver;
 
-
-
-
     public WebDriver getDriver(){
         return driver;
     }
@@ -36,6 +33,4 @@ public class BaseTest {
         driver = new ChromeDriver();
         return driver;
     }
-
-
 }

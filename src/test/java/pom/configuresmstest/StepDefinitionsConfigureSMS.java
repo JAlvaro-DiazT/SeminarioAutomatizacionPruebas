@@ -10,6 +10,7 @@ import pom.BaseTest;
 import pom.ConfigureSMSPage;
 import pom.SignInPage;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StepDefinitionsConfigureSMS extends BaseTest {
@@ -44,22 +45,10 @@ public class StepDefinitionsConfigureSMS extends BaseTest {
         configureSMSPage.configureSMS(name, description);
     }
 
-    @And("click the OK button")
-    public void clickTheOKButton() {
-        configureSMSPage.sumbit();
-    }
-
-    @Then("click on the \"Objetivo\" link")
-    public void clickOnTheObjetivoLink() {
-        By titleTwoLocater = By.xpath("//span[@class='ui-steps-title' and text()='Objetivo']");
-        configureSMSPage.click(titleTwoLocater);
-        //is displayed codigo
-    }
-
-    @And("click on the \"2\" link")
-    public void clickOnThe2Link() {
-        By numberTwoLocater = By.xpath("//span[@class='ui-steps-number' and text()='2']");
-        configureSMSPage.click(numberTwoLocater);
-        //is displayed descripcion
+    @Then("I see the title of the next page")
+    public void i_see_the_title_of_the_next_page() {
+        String message = configureSMSPage.getTitleApp();
+        System.out.println(message);
+        assertEquals(  ":: SMS - Builder :: Objetivo ::", message);
     }
 }
