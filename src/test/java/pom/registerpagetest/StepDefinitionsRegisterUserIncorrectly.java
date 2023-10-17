@@ -1,38 +1,42 @@
 package pom.registerpagetest;
 
-import com.github.javafaker.Faker;
-import io.cucumber.java.en.Given;
+import record.RegisterUserDataRecord;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pom.BaseTest;
-import pom.RegisterPage;
+import pom.PicoSignInRegister;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StepDefinitionsRegisterUserIncorrectly extends BaseTest {
+public class StepDefinitionsRegisterUserIncorrectly {
 
-    RegisterPage registerPage;
-    Faker faker = new Faker();
-    @Given("I am on the SMS page to register a user that already exists")
-    public void i_am_on_the_sms_page_to_register_a_user_that_already_exists() {
-        setUpDriverConnetion();
-        registerPage = new RegisterPage(getDriver());
-        faker = new Faker();
+    PicoSignInRegister picoSignInRegister;
+
+    public StepDefinitionsRegisterUserIncorrectly(PicoSignInRegister picoSignInRegister) {
+
+        this.picoSignInRegister = picoSignInRegister;
     }
-
     @When("I fill in the data of the user that already exists")
-    public void i_fill_in_the_data_of_the_user_that_already_exists() throws InterruptedException {
-
+    public void i_fill_in_the_data_of_the_user_that_already_exists() {
         String name = "alvaro diaz";
         String username = "alvaro";
-        String key = "diaz";
-        registerPage.registerUser(name, username, key, key);
+        String password = "diaz";
+
+        // Crear una instancia del record con los datos del usuario
+        RegisterUserDataRecord registerUserDataRecord = new RegisterUserDataRecord(name, username, password);
+
+        // Llamar al método de registro con los datos del record
+        picoSignInRegister.registerPage.registerUser(
+                registerUserDataRecord.name(),
+                registerUserDataRecord.username(),
+                registerUserDataRecord.password(),
+                registerUserDataRecord.password()
+        );
     }
 
     @Then("Validate if the \"Existing registration\" pop-up message appears")
     public void validate_if_the_pop_up_message_does_appear() {
-        String message = registerPage.receivePopupMessage();
+        String message = picoSignInRegister.registerPage.receivePopupMessage();
         assertEquals(  "Existing registration", message);
+        picoSignInRegister.baseTest.tearDown();
     }
 }

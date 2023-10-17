@@ -7,8 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class GoalPage extends Base{
 
-    By goalNumberLocator = By.xpath("//span[@class='ui-steps-number' and text()='2']");
-    By goalCodigoLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-6']/input");
+    By goalCodeLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-6']/input");
     By goalDescriptionLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-6']/textarea");
 
     By goalButtonLocator = By.xpath("//span[@class='ui-button-text ui-c' and text()='Aceptar']");
@@ -24,7 +23,7 @@ public class GoalPage extends Base{
     }
 
     public void registerGoal(String code, String description){
-        type(code, goalCodigoLocator);
+        type(code, goalCodeLocator);
         type(description, goalDescriptionLocator);
         click(goalButtonLocator);
         WebDriverWait ewait = getEwait();
@@ -37,5 +36,9 @@ public class GoalPage extends Base{
 
     public String receivePopupMessage(){
         return getText(messageGoal);
+    }
+
+    public String getGoalCodeLocator() {
+        return getText(goalCodeLocator);
     }
 }

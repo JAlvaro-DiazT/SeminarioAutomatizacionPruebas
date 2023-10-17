@@ -1,39 +1,41 @@
 package pom.signinpagetest;
 
+import record.LoginDataRecord;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pom.BaseTest;
-import pom.SignInPage;
+import pom.PicoSignInRegister;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StepDefinitionsSignInIncorrectly extends BaseTest {
+public class StepDefinitionsSignInIncorrectly {
+    PicoSignInRegister picoSignInRegister;
 
-    SignInPage signInPage;
-    @Given("I am on the SMS page to log in incorrectly")
-    public void i_am_on_the_sms_page() {
-        setUpDriverConnetion();
-        signInPage = new SignInPage(getDriver());
+    public StepDefinitionsSignInIncorrectly(PicoSignInRegister picoSignInRegister) {
+
+        this.picoSignInRegister = picoSignInRegister;
     }
+
 
     @When("I entered incorrect user data")
     public void i_entered_incorrect_user_data() {
+        // Crear una instancia del DTO con los datos del usuario
+        ////picoSignInRegister.signInPage.signIn(userData.getUsername(), userData.getPassword());
 
         String user = "prueba erronea";
         String key = "123qw";
-        signInPage.signIn(user, key);
+        LoginDataRecord loginDataRecord = new LoginDataRecord(user, key);
+        picoSignInRegister.signInPage.signIn(loginDataRecord.user(), loginDataRecord.key());
     }
 
     @Then("Validate if the Exit button is not found")
     public void validate_if_the_exit_button_is_not_found() {
-        assertFalse(signInPage.isDisplayed(signInPage.getRegisterGoOut()));
+        assertTrue(picoSignInRegister.signInPage.isDisplayed(picoSignInRegister.signInPage.getEnterUserNameLocator()));
     }
 
     @And("Validate if dropdown menu is not found")
-    public void validate_if_dropdown_menu_is_not_found() {
-        assertFalse(signInPage.isDisplayed(signInPage.getRegisterMenu()));
+    public void validate_if_dropdown_menu_is_not_found(){
+        assertTrue(picoSignInRegister.signInPage.isDisplayed(picoSignInRegister.signInPage.getEnterKeyLocator()));
+        picoSignInRegister.baseTest.tearDown();
     }
 }

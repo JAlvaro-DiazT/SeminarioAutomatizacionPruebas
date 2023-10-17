@@ -1,37 +1,42 @@
 package pom.signinpagetest;
 
+import record.LoginDataRecord;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pom.BaseTest;
-import pom.SignInPage;
-import static org.junit.jupiter.api.Assertions.*;
+import pom.PicoSignInRegister;
 
-public class StepDefinitionsSignInSuccessfully extends BaseTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    SignInPage signInPage;
-    @Given("I am on the SMS page to log in correctly")
-    public void i_am_on_the_sms_page() {
-        setUpDriverConnetion();
-        signInPage = new SignInPage(getDriver());
+public class StepDefinitionsSignInSuccessfully{
+
+    PicoSignInRegister picoSignInRegister;
+
+    public StepDefinitionsSignInSuccessfully(PicoSignInRegister picoSignInRegister) {
+
+        this.picoSignInRegister = picoSignInRegister;
     }
 
     @When("I enter the correct user data")
     public void i_enter_the_correct_user_data() {
+        // Crear una instancia del DTO con los datos del usuario
+        //LoginDataDTO userData = new LoginDataDTO("alvaro", "diaz");
+        //picoSignInRegister.signInPage.signIn(userData.getUsername(), userData.getPassword());
 
         String user = "alvaro";
         String key = "diaz";
-        signInPage.signIn(user, key);
+        LoginDataRecord loginDataRecord = new LoginDataRecord(user, key);
+        picoSignInRegister.signInPage.signIn(loginDataRecord.user(), loginDataRecord.key());
     }
 
     @Then("Validate if the Exit button is found")
     public void validate_if_the_exit_button_is_found() {
-        assertTrue(signInPage.isDisplayed(signInPage.getRegisterGoOut()));
+        assertTrue(picoSignInRegister.signInPage.isDisplayed(picoSignInRegister.signInPage.getRegisterGoOut()));
     }
 
     @And("Validate if dropdown menu is found")
     public void validate_if_dropdown_menu_is_found() {
-        assertTrue(signInPage.isDisplayed(signInPage.getRegisterMenu()));
+        assertTrue(picoSignInRegister.signInPage.isDisplayed(picoSignInRegister.signInPage.getRegisterMenu()));
+        picoSignInRegister.baseTest.tearDown();
     }
 }

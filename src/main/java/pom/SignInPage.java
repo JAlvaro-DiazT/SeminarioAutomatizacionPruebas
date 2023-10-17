@@ -12,6 +12,7 @@ public class SignInPage extends Base{
     By registerGoOut = By.xpath("//span[@class='ui-button-text ui-c' and text()='Salir']");
 
     By registerMenu = By.xpath("//span[@class='ui-button-text ui-c' and text()='ui-button']");
+
     public SignInPage(WebDriver driver) {
         super(driver);
     }
@@ -29,6 +30,14 @@ public class SignInPage extends Base{
 
     public By getRegisterMenu() {
         return registerMenu;
+    }
+
+    public By getEnterUserNameLocator() {
+        return enterUserNameLocator;
+    }
+
+    public By getEnterKeyLocator() {
+        return enterKeyLocator;
     }
 
     public boolean isHomePageDisplayed(){
