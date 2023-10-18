@@ -23,3 +23,35 @@ Feature: Goal SMS
     And Redirect to the "ObjetivoSMS" page 2
     When Complete the requested information Goal with Code duplicate
     Then I see the message emergent code duplicate
+
+  Scenario: SMS-Builder :: Goal SMS Code actualizar y cancelar
+
+    Given I am connection on the SMS page
+    And I enter user data correctly
+    And Redirect to the "ObjetivoSMS" page 2
+    When Complete the requested information para actualizar y cancelar
+    Then I see the message emergent de actualizar cancelado
+
+  Scenario: SMS-Builder :: Goal SMS Code actualizar y confirmar
+
+    Given I am connection on the SMS page
+    And I enter user data correctly
+    And Redirect to the "ObjetivoSMS" page 2
+    When Complete the requested information para actualizar y confirmar
+    Then I see the message emergent de actualizar confirmado
+
+  Scenario: SMS-Builder :: Goal SMS Code eliminar y cancelar
+
+    Given I am connection on the SMS page
+    And I enter user data correctly
+    And Redirect to the "ObjetivoSMS" page 2
+    When Complete the requested information para eliminar y cancelar
+    Then I see the message emergent de eliminar cancelado
+
+  Scenario: SMS-Builder :: Goal SMS Code eliminar y confirmar
+
+    Given I am connection on the SMS page
+    And I enter user data correctly
+    And Redirect to the "ObjetivoSMS" page 2
+    When Complete the requested information para eliminar y confirmar
+    Then I see the message emergent de eliminar confirmado

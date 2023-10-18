@@ -17,15 +17,15 @@ public class GoalPage extends Base{
     By titleApp = By.xpath("//div[@id='tituloApp']/h1");
 
 
-    By tableBody = By.xpath("//div[@class='ui-datatable-tablewrapper']/tbody");
-    By optionEditButton = By.xpath("//*[@class='ui-datatable-tablewrapper']/tbody//tr/td[3]/div//span[@class='ui-icon ui-icon-pencil']");
+    By tableBody = By.id("tabla:j_idt89_data");
+    By optionEditButton = By.xpath("//*[@id='tabla:j_idt89_data']//tr/td[3]/div//span[@class='ui-icon ui-icon-pencil']");
 
     By modifyCodeLocator = By.cssSelector(".ui-row-editing > td:nth-child(1) input");
     By modifyDescriptionLocator = By.cssSelector(".ui-row-editing > td:nth-child(2) textarea");
     By updateBtnCheckLocator = By.cssSelector(".ui-row-editing > td:nth-child(3) a.ui-row-editor-check");
     By cancelUpdateLocator = By. cssSelector(".ui-row-editing > td:nth-child(3) a.ui-row-editor-close");
 
-    By deleteGoalLocator = By.xpath("//*[@class='ui-datatable-tablewrapper']/tbody//tr/td[3]/button//span[@class='ui-button-icon-left ui-icon ui-c pi pi-trash']");
+    By deleteGoalLocator = By.xpath("//*[@id='tabla:j_idt89_data']//tr/td[3]/button//span[@class='ui-button-icon-left ui-icon ui-c pi pi-trash']");
     //By alertDeleteObjLocator = By.cssSelector(".ui-confirm-dialog");
     By alertDeleteGoalLocator = By.xpath("//div[@class='ui-confirm-dialog ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container']/div[@class='ui-dialog-buttonpane ui-dialog-footer ui-widget-content ui-helper-clearfix']");
     By confirmDeleteObjLocator = By.xpath("//span[@class='ui-button-text ui-c' and text()='Si']");
@@ -60,7 +60,7 @@ public class GoalPage extends Base{
         // Espera a que la tabla esté presente en la página
         getEwait().until(ExpectedConditions.presenceOfElementLocated(tableBody));
 
-        List<WebElement> filas = findElements(By.cssSelector("#tabla\\:j_idt602_data tr"));
+        List<WebElement> filas = findElements(By.cssSelector("#tabla\\:j_idt89_data tr"));
         System.out.println("Cant filas: " + filas.size());
         if (filas.size() == 1 && filas.get(0).getText().contains("No se encontraron registros")) {
             // Si la tabla está vacía y muestra el mensaje "No se encontraron registros"
@@ -118,6 +118,16 @@ public class GoalPage extends Base{
         botonesEliminar.get(pos).click();
         getEwait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(alertDeleteGoalLocator));
         click(confirmDeleteObjLocator);
+
+    }
+
+    public void cancelarEliminarObjetivo (String codigoObjetivo){
+        int pos = buscarPosObjetivo(codigoObjetivo);
+        List<WebElement> botonesEliminar = findElements(deleteGoalLocator);
+        //presiona el botón para actualizar los datos
+        botonesEliminar.get(pos).click();
+        getEwait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(alertDeleteGoalLocator));
+        click(cancelDeleteObjLocator);
 
     }
 

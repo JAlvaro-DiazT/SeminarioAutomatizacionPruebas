@@ -1,10 +1,10 @@
 package pom.signinpagetest;
 
-import record.LoginDataRecord;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pom.PicoSignInRegister;
+import record.LoginDataRecord;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +15,6 @@ public class StepDefinitionsSignInIncorrectly {
 
         this.picoSignInRegister = picoSignInRegister;
     }
-
 
     @When("I entered incorrect user data")
     public void i_entered_incorrect_user_data() {
