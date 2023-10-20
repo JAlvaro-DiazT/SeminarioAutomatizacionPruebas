@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class GoalPage extends Base{
 
-    By goalCodeLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-7']/input[@id='formulario:j_idt83']");
+    By goalCodeLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-6']/input[@id='formulario:j_idt83']");
     By goalDescriptionLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-6']/textarea");
     By goalButtonLocator = By.xpath("//span[@class='ui-button-text ui-c' and text()='Aceptar']");
     By messageGoal = By.xpath("//div[@class='ui-growl-message']/span[@class='ui-growl-title']");
