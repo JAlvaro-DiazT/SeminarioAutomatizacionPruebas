@@ -20,8 +20,11 @@ public class RegisterPage extends Base {
         super(driver);
     }
 
-    public void registerUser(String name, String username, String key, String keyVerification) {
+    public void goRegistrationPage(){
         click(registerButtonLocator);
+    }
+
+    public void registerUser(String name, String username, String key, String keyVerification) {
         type(name, registerNameLocator);
         type(username,registerUserNameLocator);
         type(key, registerKeyLocator);

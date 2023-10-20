@@ -4,13 +4,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.Random;
 
 public class GoalPage extends Base{
 
-    By goalCodeLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-6']/input");
+    By goalCodeLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-7']/input[@id='formulario:j_idt83']");
     By goalDescriptionLocator = By.xpath("//div[@class='ui-panelgrid-cell ui-g-12 ui-md-6']/textarea");
     By goalButtonLocator = By.xpath("//span[@class='ui-button-text ui-c' and text()='Aceptar']");
     By messageGoal = By.xpath("//div[@class='ui-growl-message']/span[@class='ui-growl-title']");
@@ -38,106 +38,93 @@ public class GoalPage extends Base{
         type(code, goalCodeLocator);
         type(description, goalDescriptionLocator);
         click(goalButtonLocator);
-        WebDriverWait ewait = getEwait();
-        ewait.until(ExpectedConditions.visibilityOfElementLocated(messageGoal));
+        getEwait().until(ExpectedConditions.visibilityOfElementLocated(messageGoal));
     }
 
     public String receivePopupMessage(){
         return getText(messageGoal);
     }
 
-    public boolean buscarObjetivo(String codigoObjetivo) {
-        // Espera a que la tabla esté presente en la página
-        if (buscarPosObjetivo(codigoObjetivo)>=0){
-            return true;
-        } else{
-            return false;
+    public boolean validateGoalSearch(String searchCode) {
+        if(isDisplayed(messageGoal)){
+            getEwait().until(ExpectedConditions.presenceOfElementLocated(tableBody));
         }
-
+        return findGoalCodePosition(searchCode) >= 0;
     }
 
-    public int buscarPosObjetivo(String codigoObjetivo) {
-        // Espera a que la tabla esté presente en la página
-        getEwait().until(ExpectedConditions.presenceOfElementLocated(tableBody));
+    public int findGoalCodePosition(String searchCode) {
 
-        List<WebElement> filas = findElements(By.cssSelector("#tabla\\:j_idt89_data tr"));
-        System.out.println("Cant filas: " + filas.size());
-        if (filas.size() == 1 && filas.get(0).getText().contains("No se encontraron registros")) {
-            // Si la tabla está vacía y muestra el mensaje "No se encontraron registros"
-            System.out.println("La tabla está vacía. No se encontraron registros.");
+        getEwait().until(ExpectedConditions.presenceOfElementLocated(tableBody));
+        getEwait().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#tabla\\:j_idt89_data tr")));
+
+        List<WebElement> rows = findElements(By.cssSelector("#tabla\\:j_idt89_data tr"));
+        if (rows.size() == 1 && rows.get(0).getText().contains("No se encontraron registros")) {
+            System.out.println("No se encontraron registros.");
             return 0;
         }
 
-        for (WebElement fila : filas) {
-            List<WebElement> celdas = fila.findElements(By.tagName("td"));
+        for (WebElement field : rows) {
+            List<WebElement> fields = field.findElements(By.tagName("td"));
+            String code = getText(fields.get(0));
 
-            if (celdas.size() >= 2) {  // Verifica si hay al menos 2 celdas (código y descripción)
-                String codigo = getText(celdas.get(0));
-                String descripcion = getText(celdas.get(1));
-
-                if (codigo.equalsIgnoreCase(codigoObjetivo) || descripcion.equalsIgnoreCase(codigoObjetivo)) {
-                    // Encontrar el objetivo en la tabla
-                    System.out.println("Objetivo encontrado en la tabla: " + codigoObjetivo);
-                    // Puedes agregar aquí cualquier acción adicional que desees realizar
-                    return Integer.parseInt(fila.getAttribute("data-ri"));
-                }
+            if (code.equalsIgnoreCase(searchCode)) {
+                    System.out.println("Find Goal: " + searchCode);
+                    return Integer.parseInt(field.getAttribute("data-ri"));
             }
         }
-
         return -1;
     }
 
-    public void actualizarObjetivo (String codigoObjetivo, String newCod, String newDescription){
+    public void updateConfirmGoal(String searchCode, String newCode, String newDescription){
 
-        int pos = buscarPosObjetivo(codigoObjetivo);
-        List<WebElement> botonesEditar = findElements(optionEditButton);
-        //presiona el botón para actualizar los datos
-        botonesEditar.get(pos).click();
-        type(newCod, modifyCodeLocator);
-        type(newDescription, modifyDescriptionLocator);
+        updateGoal(searchCode, newCode, newDescription);
         click(updateBtnCheckLocator);
     }
 
-    public void actualizarCancelObjetivo (String codigoObjetivo, String newCod, String newDescription){
-
-        int pos = buscarPosObjetivo(codigoObjetivo);
-
-        List<WebElement> botonesEditar = findElements(optionEditButton);
-        //presiona el botón para actualizar los datos
-        botonesEditar.get(pos).click();
-        type(newCod, modifyCodeLocator);
-        type(newDescription, modifyDescriptionLocator);
+    public void updateCancelGoal(String searchCode, String newCode, String newDescription){
+        updateGoal(searchCode, newCode, newDescription);
         click(cancelUpdateLocator);
-
     }
 
-    public void eliminarObjetivo (String codigoObjetivo){
-        int pos = buscarPosObjetivo(codigoObjetivo);
-        List<WebElement> botonesEliminar = findElements(deleteGoalLocator);
-        //presiona el botón para actualizar los datos
-        botonesEliminar.get(pos).click();
-        getEwait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(alertDeleteGoalLocator));
+    private void updateGoal(String searchCode, String newCode, String newDescription) {
+        int position = findGoalCodePosition(searchCode);
+        List<WebElement> btnEdit = findElements(optionEditButton);
+        btnEdit.get(position).click();
+        type(newCode, modifyCodeLocator);
+        type(newDescription, modifyDescriptionLocator);
+    }
+
+    public void deleteGoal(String searchCode){
+        clickDelete(searchCode);
         click(confirmDeleteObjLocator);
 
     }
 
-    public void cancelarEliminarObjetivo (String codigoObjetivo){
-        int pos = buscarPosObjetivo(codigoObjetivo);
-        List<WebElement> botonesEliminar = findElements(deleteGoalLocator);
-        //presiona el botón para actualizar los datos
-        botonesEliminar.get(pos).click();
+    private void clickDelete(String searchCode) {
+        int pos = findGoalCodePosition(searchCode);
+        List<WebElement> btnDelete = findElements(deleteGoalLocator);
+        btnDelete.get(pos).click();
         getEwait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(alertDeleteGoalLocator));
+    }
+
+    public void deleteCancelGoal(String searchCode){
+        clickDelete(searchCode);
         click(cancelDeleteObjLocator);
 
     }
 
-    // Eliminar ui-button-icon-left ui-icon ui-c pi pi-trash
-    // Modal Eliminar Div class ui-confirm-dialog ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container
-    // span class ui-confirm-dialog-message 'Está seguro de eliminar este registro'
-    // NO <span class="ui-button-text ui-c">No</span>
-    // SI <span class="ui-button-text ui-c">Si</span>
-    // X <span class="ui-icon ui-icon-closethick"></span>
+    public String getRandomRow() {
+        getEwait().until(ExpectedConditions.presenceOfElementLocated(tableBody));
+        List<WebElement> rows = findElements(By.cssSelector("#tabla\\:j_idt89_data tr"));
+        if (rows.size() == 1 && rows.get(0).getText().contains("No se encontraron registros")) {
+            return null;
+        }
+        // Genera un número aleatorio entre 0 y rows.size() - 1
+        Random random = new Random();
+        int randomIndex = random.nextInt(rows.size());
+        List<WebElement> field = rows.get(randomIndex).findElements(By.tagName("td"));
+        System.out.println("Campo en el random " + getText(field.get(0)));
+        return getText(field.get(0));
 
-    // Mensajes fallidos "Ocurrio un error inesperado en el sistema"
-
+    }
 }

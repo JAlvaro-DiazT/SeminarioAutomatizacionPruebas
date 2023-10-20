@@ -1,8 +1,11 @@
 package pom;
 
-public class PicoHomePageSMS {
+public class PicoMain {
     public SignInPage signInPage;
-    public BaseTest baseTest;
+    public RegisterPage registerPage;
+
+    //public BaseTest baseTest;
+
     public ConfigureSMSPage configureSMSPage;
     public GoalPage goalPage;
 }

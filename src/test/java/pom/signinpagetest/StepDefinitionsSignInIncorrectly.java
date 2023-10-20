@@ -2,39 +2,26 @@ package pom.signinpagetest;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-import pom.PicoSignInRegister;
-import record.LoginDataRecord;
+import pom.PicoMain;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StepDefinitionsSignInIncorrectly {
-    PicoSignInRegister picoSignInRegister;
+    PicoMain picoMain;
 
-    public StepDefinitionsSignInIncorrectly(PicoSignInRegister picoSignInRegister) {
+    public StepDefinitionsSignInIncorrectly(PicoMain picoMain) {
 
-        this.picoSignInRegister = picoSignInRegister;
+        this.picoMain = picoMain;
     }
 
-    @When("I entered incorrect user data")
-    public void i_entered_incorrect_user_data() {
-        // Crear una instancia del DTO con los datos del usuario
-        ////picoSignInRegister.signInPage.signIn(userData.getUsername(), userData.getPassword());
-
-        String user = "prueba erronea";
-        String key = "123qw";
-        LoginDataRecord loginDataRecord = new LoginDataRecord(user, key);
-        picoSignInRegister.signInPage.signIn(loginDataRecord.user(), loginDataRecord.key());
+    @Then("The user should not see the Logout button")
+    public void theUserShouldNotSeeTheLogoutButton() {
+        assertTrue(picoMain.signInPage.isDisplayed(picoMain.signInPage.getEnterUserNameLocator()));
     }
 
-    @Then("Validate if the Exit button is not found")
-    public void validate_if_the_exit_button_is_not_found() {
-        assertTrue(picoSignInRegister.signInPage.isDisplayed(picoSignInRegister.signInPage.getEnterUserNameLocator()));
-    }
-
-    @And("Validate if dropdown menu is not found")
-    public void validate_if_dropdown_menu_is_not_found(){
-        assertTrue(picoSignInRegister.signInPage.isDisplayed(picoSignInRegister.signInPage.getEnterKeyLocator()));
-        picoSignInRegister.baseTest.tearDown();
+    @And("The user should not see the Menu button")
+    public void theUserShouldNotSeeTheMenuButton() {
+        assertTrue(picoMain.signInPage.isDisplayed(picoMain.signInPage.getEnterKeyLocator()));
+        //picoSignInRegister.baseTest.tearDown();
     }
 }

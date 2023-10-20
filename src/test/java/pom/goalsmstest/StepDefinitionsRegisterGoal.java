@@ -3,44 +3,42 @@ package pom.goalsmstest;
 import com.github.javafaker.Faker;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
 import pom.GoalPage;
-import pom.PicoHomePageSMS;
+import pom.Hook;
+import pom.PicoMain;
+import pom.RegisterPage;
 import record.GoalDataRecord;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class StepDefinitionsRegisterGoal {
     Faker faker = new Faker();
-    PicoHomePageSMS picoHomePageSMS;
-    public StepDefinitionsRegisterGoal(PicoHomePageSMS picoHomePageSMS) {
+    String code;
+    PicoMain picoMain;
 
-        this.picoHomePageSMS = picoHomePageSMS;
-        picoHomePageSMS.goalPage = new GoalPage(picoHomePageSMS.baseTest.getDriver());
+    WebDriver driver = Hook.getDriver();
+    public StepDefinitionsRegisterGoal(PicoMain picoMain) {
+
+        this.picoMain = picoMain;
+        picoMain.goalPage = new GoalPage(driver);
+        picoMain.registerPage = new RegisterPage(driver);
 
     }
 
-    @When("Complete the requested information Goal")
-    public void completeTheRequestedInformation() {
+    @When("The user enters the code and description")
+    public void theUserEntersTheCodeAndDescription() {
 
-        String code = faker.lorem().sentence(3);
+        code = faker.lorem().sentence(3);
         String description = faker.lorem().sentence(10);
 
         GoalDataRecord goalData = new GoalDataRecord(code, description);
 
-        picoHomePageSMS.goalPage.registerGoal(goalData.code(), goalData.description());
-
-        String codigoObjetivo= code;
-        assertTrue(picoHomePageSMS.goalPage.buscarObjetivo(codigoObjetivo));
-
+        picoMain.goalPage.registerGoal(goalData.code(), goalData.description());
     }
+    @Then("The user should see the code in the goal table")
+    public void theUserShouldSeeTheCodeInTheGoalTable() {
 
-    @Then("I see the message emergent")
-    public void i_see_the_title_of_the_next_page() {
-        String message = picoHomePageSMS.goalPage.receivePopupMessage();
-        assertEquals(  "Operación completada", message);
-
-        //tbody, tr, td comparacion del valor ingresado si este en la tabla (code)
-        //picoHomePageSMS.baseTest.tearDown();
+        assertTrue(picoMain.goalPage.validateGoalSearch(code));
     }
 }

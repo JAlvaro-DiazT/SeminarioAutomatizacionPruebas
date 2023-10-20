@@ -1,23 +1,34 @@
 package pom.signinpagetest;
 
 import io.cucumber.java.en.Given;
-import pom.BaseTest;
-import pom.PicoSignInRegister;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
+import pom.Hook;
+import pom.PicoMain;
 import pom.SignInPage;
+import record.LoginDataRecord;
 
 public class StepDefinitionsPreconditionSignIn {
-    private PicoSignInRegister picoSignInRegister;
+    private PicoMain picoMain;
+    WebDriver driver = Hook.getDriver();
 
-    public StepDefinitionsPreconditionSignIn(PicoSignInRegister picoSignInRegister) {
+    public StepDefinitionsPreconditionSignIn(PicoMain picoMain) {
 
-        this.picoSignInRegister = picoSignInRegister;
+        this.picoMain = picoMain;
 
     }
 
-    @Given("I am on the SMS page to sign in")
-    public void iAmOnTheSMSPageToSignIn() {
-        picoSignInRegister.baseTest = new BaseTest();
-        picoSignInRegister.baseTest.setUpDriverConnetion();
-        picoSignInRegister.signInPage = new SignInPage(picoSignInRegister.baseTest.getDriver());
+    @Given("The user is on the login page")
+    public void theUserIsOnTheLoginPage() {
+        //picoMain.baseTest = new BaseTest();
+        //picoMain.baseTest.setUpDriverConnetion();
+        picoMain.signInPage = new SignInPage(driver);
+
+    }
+
+    @When("The user enters their username {string} and password {string}")
+    public void theUserEntersTheirUsernameAndPassword(String user, String key) {
+        LoginDataRecord loginDataRecord = new LoginDataRecord(user, key);
+        picoMain.signInPage.signIn(loginDataRecord.user(), loginDataRecord.key());
     }
 }

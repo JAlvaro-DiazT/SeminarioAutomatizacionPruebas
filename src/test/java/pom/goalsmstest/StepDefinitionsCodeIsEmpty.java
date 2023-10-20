@@ -1,41 +1,32 @@
 package pom.goalsmstest;
 
 import com.github.javafaker.Faker;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
 import pom.GoalPage;
-import pom.PicoHomePageSMS;
+import pom.Hook;
+import pom.PicoMain;
+import pom.RegisterPage;
 import record.GoalDataRecord;
-
-import static org.junit.Assert.assertEquals;
 
 public class StepDefinitionsCodeIsEmpty {
     Faker faker = new Faker();
-    PicoHomePageSMS picoHomePageSMS;
+    PicoMain picoMain;
+    WebDriver driver = Hook.getDriver();
+    public StepDefinitionsCodeIsEmpty(PicoMain picoMain) {
 
-    public StepDefinitionsCodeIsEmpty(PicoHomePageSMS picoHomePageSMS) {
+        this.picoMain = picoMain;
+        picoMain.goalPage = new GoalPage(driver);
+        picoMain.registerPage = new RegisterPage(driver);
 
-        this.picoHomePageSMS = picoHomePageSMS;
-        picoHomePageSMS.goalPage = new GoalPage(picoHomePageSMS.baseTest.getDriver());
     }
 
-    @When("Complete the requested information Goal with Code empty")
-    public void completeTheRequestedInformation() {
-
+    @When("The user enters the code empty")
+    public void theUserEntersTheCodeEmpty() {
         String code = "";
         String description = faker.lorem().sentence(10);
         GoalDataRecord goalData = new GoalDataRecord(code, description);
 
-        picoHomePageSMS.goalPage.registerGoal(goalData.code(), goalData.description());
-
-    }
-
-    @Then("I see the message emergent code empty")
-    public void i_see_the_title_of_the_next_page() {
-        String message = picoHomePageSMS.goalPage.receivePopupMessage();
-        assertEquals(  "formulario:j_idt83: Error de validación: se necesita un valor.", message);
-
-        //tbody, tr, td comparacion del valor ingresado si este en la tabla (code)
-        //picoHomePageSMS.baseTest.tearDown();
+        picoMain.goalPage.registerGoal(goalData.code(), goalData.description());
     }
 }

@@ -3,8 +3,10 @@ package pom.configuresmstest;
 import com.github.javafaker.Faker;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
 import pom.ConfigureSMSPage;
-import pom.PicoHomePageSMS;
+import pom.Hook;
+import pom.PicoMain;
 import record.SMSConfigurationDataRecord;
 
 import static org.junit.Assert.assertEquals;
@@ -12,29 +14,31 @@ import static org.junit.Assert.assertEquals;
 public class StepDefinitionsConfigureSMS {
 
     Faker faker = new Faker();
-    PicoHomePageSMS picoHomePageSMS;
 
-    public StepDefinitionsConfigureSMS(PicoHomePageSMS picoHomePageSMS) {
+    private PicoMain picoMain;
+    WebDriver driver = Hook.getDriver();
 
-        this.picoHomePageSMS = picoHomePageSMS;
-        picoHomePageSMS.configureSMSPage = new ConfigureSMSPage(picoHomePageSMS.baseTest.getDriver());
+    public StepDefinitionsConfigureSMS(PicoMain picoMain) {
+
+        this.picoMain = picoMain;
+        picoMain.configureSMSPage = new ConfigureSMSPage(driver);
     }
 
-    @When("Complete the requested information")
-    public void completeTheRequestedInformation() {
+    @When("The user enters the name and description")
+    public void theUserEntersTheNameAndDescription() {
 
         String name = faker.lorem().sentence(10);
         String description = faker.lorem().sentence(30);
         SMSConfigurationDataRecord configData = new SMSConfigurationDataRecord(name, description);
 
-        picoHomePageSMS.configureSMSPage.configureSMS(configData.name(), configData.description());
+        picoMain.configureSMSPage.configureSMS(configData.name(), configData.description());
     }
 
-    @Then("I see the title of the next page")
-    public void i_see_the_title_of_the_next_page() {
-        String message = picoHomePageSMS.configureSMSPage.getTitleApp();
+    @Then("The user should be on the following page seeing the title {string}")
+    public void theUserShouldBeOnTheFollowingPageSeeingTheTitle(String title) {
+        String message = picoMain.configureSMSPage.getTitleApp();
         System.out.println(message);
-        assertEquals(  ":: SMS - Builder :: Objetivo ::", message);
-        picoHomePageSMS.baseTest.tearDown();
+        assertEquals(  title, message);
+        //picoSignInRegister.baseTest.tearDown();
     }
 }

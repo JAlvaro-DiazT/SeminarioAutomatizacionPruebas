@@ -1,43 +1,32 @@
 package pom.goalsmstest;
 
 import com.github.javafaker.Faker;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
 import pom.GoalPage;
-import pom.PicoHomePageSMS;
+import pom.Hook;
+import pom.PicoMain;
+import pom.RegisterPage;
 import record.GoalDataRecord;
-
-import static org.junit.Assert.assertEquals;
 
 public class StepDefinitionsCodeIsDuplicate {
     Faker faker = new Faker();
-    PicoHomePageSMS picoHomePageSMS;
+    PicoMain picoMain;
+    WebDriver driver = Hook.getDriver();
+    public StepDefinitionsCodeIsDuplicate(PicoMain picoMain) {
 
-    public StepDefinitionsCodeIsDuplicate(PicoHomePageSMS picoHomePageSMS) {
+        this.picoMain = picoMain;
+        picoMain.goalPage = new GoalPage(driver);
+        picoMain.registerPage = new RegisterPage(driver);
 
-        this.picoHomePageSMS = picoHomePageSMS;
-        picoHomePageSMS.goalPage = new GoalPage(picoHomePageSMS.baseTest.getDriver());
     }
 
-    @When("Complete the requested information Goal with Code duplicate")
-    public void completeTheRequestedInformation() {
-
-        String code = faker.lorem().sentence(3);;
+    @When("The user enters the code duplicate")
+    public void theUserEntersTheCodeDuplicate() {
+        String code = picoMain.goalPage.getRandomRow();
         String description = faker.lorem().sentence(10);
 
         GoalDataRecord goalData = new GoalDataRecord(code, description);
-        picoHomePageSMS.goalPage.registerGoal(goalData.code(), goalData.description());
-
-        picoHomePageSMS.goalPage.registerGoal(goalData.code(), goalData.description());
-
-    }
-
-    @Then("I see the message emergent code duplicate")
-    public void i_see_the_title_of_the_next_page() {
-        String message = picoHomePageSMS.goalPage.receivePopupMessage();
-        assertEquals(  "Error Registro ya existente", message);
-
-        //tbody, tr, td comparacion del valor ingresado si este en la tabla (code)
-        //picoHomePageSMS.baseTest.tearDown();
+        picoMain.goalPage.registerGoal(goalData.code(), goalData.description());
     }
 }
