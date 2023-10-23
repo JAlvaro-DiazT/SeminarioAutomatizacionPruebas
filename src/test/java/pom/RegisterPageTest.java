@@ -1,15 +1,10 @@
 package pom;
 
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
 
-import java.util.function.BooleanSupplier;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RegisterPageTest extends BaseTest {
 
@@ -35,7 +30,7 @@ class RegisterPageTest extends BaseTest {
     }
 
     @Test
-    public void registerUserIncorrect() throws InterruptedException {
+    public void registerUserIncorrect() {
         String name = "alvaro diaz";
         String username = "alvaro";
         String key = "diaz";

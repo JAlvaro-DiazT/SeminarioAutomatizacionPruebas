@@ -2,7 +2,6 @@ package pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import static org.junit.jupiter.api.Assertions.fail;
 public class SignInPage extends Base{
 
     By enterUserNameLocator = By.id("nombreUsuario");
